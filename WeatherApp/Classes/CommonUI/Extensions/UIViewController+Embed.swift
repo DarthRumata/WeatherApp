@@ -9,9 +9,9 @@ import UIKit
 
 public extension UIViewController {
     /// Adds a child view controller to the specified content view.
-        /// - Parameters:
-        ///   - viewController: The child view controller to add.
-        ///   - contentView: The content view to which the child view controller will be added. If not provided, the `view` of the current view controller will be used.
+    /// - Parameters:
+    ///   - viewController: The child view controller to add.
+    ///   - contentView: The content view to which the child view controller will be added. If not provided, the `view` of the current view controller will be used.
     func add(
         childViewController viewController: UIViewController,
         to contentView: UIView? = nil

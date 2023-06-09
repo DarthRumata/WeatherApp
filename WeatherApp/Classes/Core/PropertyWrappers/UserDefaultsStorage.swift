@@ -13,8 +13,8 @@ import Foundation
 ///
 /// Example usage:
 /// ```
-/// @UserDefaultsStorage(defaultValue: 0, "myCounter")
-/// var counter: Int
+/// @UserDefaultsStorage("myCounter")
+/// var counter: Int = 0
 ///
 /// func incrementCounter() {
 ///     counter += 1
@@ -26,49 +26,41 @@ import Foundation
 /// - Note: The value type must conform to `Codable`.
 ///
 /// - Parameters:
-///   - defaultValue: The default value to use if no value is found in UserDefaults.
 ///   - key: The key to use for storing the value in UserDefaults.
 @propertyWrapper
 public struct UserDefaultsStorage<Value> where Value: Codable {
-    struct Wrapper<Value>: Codable where Value: Codable {
-        let wrapped: Value
+    struct Box<Value>: Codable where Value: Codable {
+        let value: Value
     }
 
-    let defaultValue: Value
-    let key: String
-
-    var currentValue: Value?
+    private let defaultValue: Value
+    private let key: String
+    private let defaults: UserDefaults
 
     private lazy var decoder = JSONDecoder()
     private lazy var encoder = JSONEncoder()
 
-    public init(defaultValue value: Value, _ key: String) {
+    public init(wrappedValue: Value, _ key: String, defaults: UserDefaults = .standard) {
         assert(!key.isEmpty, "key should not be empty")
-        self.defaultValue = value
+        self.defaultValue = wrappedValue
         self.key = key
+        self.defaults = defaults
     }
 
     public var wrappedValue: Value {
         mutating get {
-            if let currentValue = currentValue {
-                return currentValue
+            if let rawData = defaults.object(forKey: key) as? Data {
+                let box = try? decoder.decode(Box<Value>.self, from: rawData)
+                return box?.value ?? defaultValue
             }
 
-            if let rawData = UserDefaults.standard.object(forKey: key) as? Data {
-                let wrappedValue = try? decoder.decode(Wrapper<Value>.self, from: rawData)
-                self.currentValue = wrappedValue?.wrapped
-                return currentValue ?? self.defaultValue
-            }
-
-            return self.defaultValue
+            return defaultValue
         }
         set {
-            if let rawData = try? encoder.encode(Wrapper(wrapped: newValue)) {
-                let wrappedValue = try? decoder.decode(Wrapper<Value>.self, from: rawData)
-                self.currentValue = wrappedValue?.wrapped
-                UserDefaults.standard.set(rawData, forKey: key)
+            if let rawData = try? encoder.encode(Box(value: newValue)) {
+                defaults.set(rawData, forKey: key)
             } else {
-                self.currentValue = wrappedValue
+                defaults.removeObject(forKey: key)
             }
         }
     }

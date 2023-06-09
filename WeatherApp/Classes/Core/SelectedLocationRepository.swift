@@ -35,8 +35,8 @@ class SelectedLocationRepository: SelectedLocationRepositoryProtocol {
         return selectedLocationSubject.eraseToAnyPublisher()
     }
     
-    @UserDefaultsStorage<SelectedWeatherLocation?>(defaultValue: nil, Constants.userDefaultsKey)
-    private(set) var selectedLocationStorage: SelectedWeatherLocation?
+    @UserDefaultsStorage<SelectedWeatherLocation?>(Constants.userDefaultsKey)
+    private(set) var selectedLocationStorage: SelectedWeatherLocation? = nil
     private lazy var selectedLocationSubject = CurrentValueSubject<SelectedWeatherLocation?, Never>(selectedLocationStorage)
     
     private var cancellable: Cancellable?
