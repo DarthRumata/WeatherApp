@@ -9,13 +9,17 @@ import NeedleFoundation
 
 protocol MainDependencies: Dependency {
     var locationService: LocationServiceProtocol { get }
-    var networkService: NetworkServiceProtocol { get }
+    var urlSessionProvider: URLSessionProvider { get }
 }
 
 class WeatherDisplayComponent: Component<MainDependencies> {
     var weatherService: WeatherNetworkServiceProtocol {
         return shared {
-            WeatherNetworkService(networkService: dependency.networkService)
+            let networkService = NetworkService(
+                session: dependency.urlSessionProvider.session,
+                decorators: [WeatherSessionDecorator()]
+            )
+            return WeatherNetworkService(networkService: networkService)
         }
     }
     var selectedLocationRepository: SelectedLocationRepositoryProtocol {

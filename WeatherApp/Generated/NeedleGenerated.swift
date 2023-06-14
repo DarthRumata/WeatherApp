@@ -36,8 +36,8 @@ private class MainDependenciesca717fbd4649c8762e14Provider: MainDependencies {
     var locationService: LocationServiceProtocol {
         return appComponent.locationService
     }
-    var networkService: NetworkServiceProtocol {
-        return appComponent.networkService
+    var urlSessionProvider: URLSessionProvider {
+        return appComponent.urlSessionProvider
     }
     private let appComponent: AppComponent
     init(appComponent: AppComponent) {
@@ -65,7 +65,7 @@ extension SearchComponent: Registration {
 extension WeatherDisplayComponent: Registration {
     public func registerItems() {
         keyPathToName[\MainDependencies.locationService] = "locationService-LocationServiceProtocol"
-        keyPathToName[\MainDependencies.networkService] = "networkService-NetworkServiceProtocol"
+        keyPathToName[\MainDependencies.urlSessionProvider] = "urlSessionProvider-URLSessionProvider"
 
     }
 }

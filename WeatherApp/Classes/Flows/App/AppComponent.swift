@@ -8,10 +8,19 @@
 import NeedleFoundation
 import UIKit
 
+protocol URLSessionProvider {
+    var session: URLSession { get }
+}
+
+class SessionService: URLSessionProvider {
+    private(set) lazy var session: URLSession = URLSession(configuration: .default)
+}
+
 class AppComponent: BootstrapComponent {
-    var networkService: NetworkServiceProtocol {
-        return shared { NetworkService() }
+    var urlSessionProvider: URLSessionProvider {
+        return shared { SessionService() }
     }
+    
     var locationService: LocationServiceProtocol {
         return shared { LocationService() }
     }

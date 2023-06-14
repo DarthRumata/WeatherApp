@@ -5,17 +5,15 @@
 //  Created by Stas Kirichok on 04.06.2023.
 //
 
-import Alamofire
-
 struct GeocodeLocationRequest: NetworkRequest {
     let path = "https://api.openweathermap.org/geo/1.0/direct"
-    let parameters: Alamofire.Parameters
+    let urlQueryParameters: URLQueryParameters?
     // TODO: it is good to add FailableDecodable to keep response even if one item is broken
     // https://kenb.us/lossy-decodable-for-arrays
-    let decodable = [WeatherLocationDTO].self
+    let deserializer = JSONDeserializer<[WeatherLocationDTO]>()
     
     init(query: String) {
         // TODO: limit is hardcoded for now
-        parameters = ["q": query, "limit": 5]
+        urlQueryParameters = ["q": query, "limit": "5"]
     }
 }
