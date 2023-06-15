@@ -22,24 +22,19 @@ enum HTTPMethod: String {
     case trace = "TRACE"
 }
 
-// The NetworkRequest protocol represents a network request that can be converted to a URLRequest and has a corresponding Response type.
-///
-/// Types conforming to NetworkRequest should provide implementation for the following properties:
-/// - path: The path component of the request URL.
-/// - method: The HTTP method to be used for the request.
-/// - `parameters`: The parameters to be included in the request.
-/// - decodable: The type of the expected response, conforming to Decodable.
+/// A protocol representing a network request that can be converted to a URLRequest.
 protocol NetworkRequest: URLRequestConvertible {
     associatedtype DeserializerType: Deserializer
     associatedtype SerializerType: Serializer
     
+    /// The type representing URL query parameters as key-value pairs.
     typealias URLQueryParameters = [String: String]
-    typealias Body = (serializer: SerializerType, payload: SerializerType.Payload)
     
     var path: String { get }
     var method: HTTPMethod { get }
     var urlQueryParameters: URLQueryParameters? { get }
-    var bodySerialization: Body { get }
+    var bodySerializer: SerializerType { get }
+    var body: SerializerType.Payload { get }
     var deserializer: DeserializerType { get }
 }
 
@@ -47,14 +42,11 @@ extension NetworkRequest {
     var method: HTTPMethod {
         return .get
     }
-    var deserializer: EmptyDeserializer {
-        return EmptyDeserializer()
-    }
     var urlQueryParameters: URLQueryParameters? {
         return nil
     }
-    var bodySerialization: (EmptySerializer, Void) {
-        return (EmptySerializer(), ())
+    var deserializer: EmptyDeserializer {
+        return EmptyDeserializer()
     }
     
     func asURLRequest() throws -> URLRequest {
@@ -74,11 +66,23 @@ extension NetworkRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         
-        let body = try bodySerialization.serializer.serialize(payload: bodySerialization.payload)
-        if !body.isEmpty {
-            request.httpBody = body
+        let serializedBody = try bodySerializer.serialize(payload: body)
+        if !serializedBody.isEmpty {
+            request.httpBody = serializedBody
         }
         
         return request
+    }
+}
+
+extension NetworkRequest where SerializerType == EmptySerializer {
+    var body: SerializerType.Payload {
+        return ()
+    }
+}
+
+extension NetworkRequest where SerializerType.Payload == Void {
+    var bodySerializer: EmptySerializer {
+        return EmptySerializer()
     }
 }

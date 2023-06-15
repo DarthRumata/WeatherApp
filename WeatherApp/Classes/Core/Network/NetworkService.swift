@@ -20,7 +20,11 @@ enum NetworkError: Error {
     case serverError(Error)
 }
 
-/// The NetworkService class is responsible for executing network requests using Alamofire and handling the response.
+/// A service for executing network requests using a URLSession and optional request decorators.
+///
+/// Use this class to perform network requests in your app. You can pass in one or more decorator objects to modify outgoing requests as needed (e.g., by adding headers).
+///
+/// - Note: This implementation uses async/await syntax and requires Swift 5.5+.
 class NetworkService: NetworkServiceProtocol {
     private let session: URLSession
     private let decorators: [RequestDecorator]
@@ -30,12 +34,18 @@ class NetworkService: NetworkServiceProtocol {
         self.decorators = decorators
     }
 
-    /// Executes the provided network request and returns the response as a Result object.
+    /// Send an asynchronous network request using a generic type that conforms to 'NetworkRequest'.
+    ///
+    /// Use this method to send a single network request asynchronously. You must provide a concrete implementation of 'NetworkRequest' when calling this method, which will be used for constructing the URLRequest object sent over the network.
+    ///
+    /// This method returns a Result enum containing either parsed response data or an error if something goes wrong during execution.
+    ///
+    /// - Note: This implementation uses async/await syntax and requires Swift 5.5+.
     ///
     /// - Parameters:
-    /// - request: The network request to execute.
+    ///   - request: A concrete implementation of 'NetworkRequest' representing the network request to be sent.
     ///
-    /// - Returns: A Result object containing either the successful response or an AFError in case of failure.
+    /// - Returns: A `Result` enum containing either parsed response data or an error if something goes wrong during execution.
     func execute<Request: NetworkRequest>(request: Request) async -> Result<Request.DeserializerType.Response, NetworkError> {
         var urlRequest: URLRequest
         do {

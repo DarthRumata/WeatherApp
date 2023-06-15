@@ -12,10 +12,11 @@ private enum Constants {
     static let key = "c8b505f67304ef58bd13af86cc3b2b2a"
 }
 
-/// The WeatherSessionAdapter struct is a request interceptor that adapts the given URLRequest for a session, adding the "appid" parameter with the API key to the request.
-///
-/// The WeatherSessionAdapter conforms to the RequestInterceptor protocol, which allows it to modify the request before it is sent to the server.
+/// A request decorator that adds the weather API key to the request.
 struct WeatherSessionDecorator: RequestDecorator {
+    // Decorates the provided request by adding the weather API key as a query parameter.
+    /// - Parameter request: The original request to be decorated.
+    /// - Returns: The decorated request with the weather API key added.
     func decorate(_ request: URLRequest) -> URLRequest {
         var decoratedRequest = request
         let tokenQueryItem = URLQueryItem(name: "appid", value: Constants.key)

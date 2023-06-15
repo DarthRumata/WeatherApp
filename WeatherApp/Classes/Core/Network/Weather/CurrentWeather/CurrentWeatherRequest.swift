@@ -10,11 +10,10 @@ enum WeatherUnits: String {
     case imperial
 }
 
-struct CurrentWeatherRequest: NetworkRequest {
+struct CurrentWeatherRequest: NetworkRequest {    
     let path = "https://api.openweathermap.org/data/2.5/weather"
     let urlQueryParameters: URLQueryParameters?
     let deserializer = JSONDeserializer<WeatherResponseDTO>()
-    //let body: (StringSerializer, String)? = (StringSerializer(), "11")
     
     init(location: Coordinate, measureUnits: WeatherUnits) {
         urlQueryParameters = ["lat": "\(location.latitude)", "lon": "\(location.longitude)", "units": measureUnits.rawValue]
