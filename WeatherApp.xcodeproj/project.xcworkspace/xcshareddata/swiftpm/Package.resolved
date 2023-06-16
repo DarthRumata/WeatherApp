@@ -19,12 +19,12 @@
       }
     },
     {
-      "identity" : "popupview",
+      "identity" : "toaster",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/exyte/PopupView.git",
+      "location" : "https://github.com/DarthRumata/Toaster",
       "state" : {
-        "revision" : "b0637e364e226ace536ca07cc4b746a916ccfe65",
-        "version" : "2.4.2"
+        "revision" : "b0d9fd76ae0d01965b3554bc00a583e042febd02",
+        "version" : "0.1.0"
       }
     }
   ],

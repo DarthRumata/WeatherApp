@@ -40,7 +40,8 @@ class WeatherDisplayViewModel: ObservableObject {
     }
     
     // MARK: Output
-    @Published private(set) var state: State = .loading
+    @Published private(set) var isLoading: Bool = false
+    @Published var error: WeatherFailureReason?
     @Published private(set) var weather: FormattedWeather?
     
     private var cancellables = Set<AnyCancellable>()
@@ -58,19 +59,19 @@ class WeatherDisplayViewModel: ObservableObject {
         
         domainModel.$weatherStatus
             .receive(on: DispatchQueue.main)
-            .eraseToAnyPublisher()
-            .map { [weak self] weatherStatus -> State in
+            .sink { [weak self] weatherStatus in
                 switch weatherStatus {
                 case .loading:
-                    return State.loading
+                    self?.isLoading = true
+                    self?.error = nil
                 case .loaded(let weather, let location):
                     self?.handleLoaded(weather: weather, location: location)
-                    return State.loaded
                 case .failed(let reason):
-                    return State.failed(reason)
+                    self?.isLoading = false
+                    self?.error = reason
                 }
             }
-            .assign(to: &$state)
+            .store(in: &cancellables)
     }
     
     // MARK: Inner logic
@@ -86,5 +87,6 @@ class WeatherDisplayViewModel: ObservableObject {
             humidity: "Humidity: \(weather.humidity)%",
             windSpeed: "Wind speed: \(weather.temperature) km/h"
         )
+        isLoading = false
     }
 }

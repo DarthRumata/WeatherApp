@@ -6,43 +6,38 @@
 //
 
 import SwiftUI
-import PopupView
+import Toaster
 
 struct WeatherDisplayContentView: View {
     @ObservedObject var viewModel: WeatherDisplayViewModel
-    @State private var showError = false
    
     var body: some View {
+        let toast = Binding<Toast?>(get: {
+            guard let error = viewModel.error else {
+                return nil
+            }
+            
+            return Toast(message: error.localizedDescription, style: .error)
+        }, set: { value, _ in
+            if value == nil {
+                DispatchQueue.main.async {
+                    viewModel.error = nil
+                }
+            }
+        })
         Group {
             if let weather = viewModel.weather {
                 WeatherView(weather: weather) {
                     viewModel.onTapLocationButton()
                 }
-            } else if viewModel.state != .loading {
+            } else if !viewModel.isLoading {
                 Text("No weather data available")
             }
         }
+        .toastView(toast: toast)
         .overlay {
-            if case .loading = viewModel.state {
+            if viewModel.isLoading {
                 LoadingIndicatorView()
-            }
-        }
-        .popup(isPresented: $showError) {
-            if case .failed(let error) = viewModel.state {
-                ErrorView(error: error) {
-                    viewModel.onTapReloadButton()
-                }
-            }
-        } customize: { options in
-            options
-                .type(.toast)
-                .autohideIn(4)
-                .position(.bottom)
-                .dragToDismiss(true)
-        }
-        .onChange(of: viewModel.state) { newValue in
-            if case .failed = viewModel.state {
-                showError = true
             }
         }
     }

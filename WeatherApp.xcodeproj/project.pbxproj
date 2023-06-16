@@ -26,6 +26,7 @@
 		121D2F192A2AAB5B00BFF0B1 /* WeatherDisplayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121D2F182A2AAB5B00BFF0B1 /* WeatherDisplayViewModel.swift */; };
 		121D2F1C2A2AAC9B00BFF0B1 /* WeatherDisplayDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121D2F1B2A2AAC9B00BFF0B1 /* WeatherDisplayDomainModel.swift */; };
 		121D2F1F2A2BAA8100BFF0B1 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121D2F1E2A2BAA8100BFF0B1 /* LocationService.swift */; };
+		122997442A3D19FB0073BFFB /* Toaster in Frameworks */ = {isa = PBXBuildFile; productRef = 122997432A3D19FB0073BFFB /* Toaster */; };
 		1263F37C2A2A48B700CD5A05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1263F37B2A2A48B700CD5A05 /* AppDelegate.swift */; };
 		1263F37E2A2A48B700CD5A05 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1263F37D2A2A48B700CD5A05 /* SceneDelegate.swift */; };
 		1263F3802A2A48B700CD5A05 /* WeatherDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1263F37F2A2A48B700CD5A05 /* WeatherDisplayViewController.swift */; };
@@ -41,7 +42,6 @@
 		12C72B762A2E72E000A2E136 /* SelectedWeatherLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C72B752A2E72E000A2E136 /* SelectedWeatherLocation.swift */; };
 		12C72B792A2E842E00A2E136 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C72B782A2E842E00A2E136 /* LoadingIndicatorView.swift */; };
 		12E7C2A92A2D15C2007C6AEB /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E7C2A82A2D15C2007C6AEB /* WeatherView.swift */; };
-		12E7C2AC2A2D17C8007C6AEB /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 12E7C2AB2A2D17C8007C6AEB /* PopupView */; };
 		12E7C2B02A2D3AEA007C6AEB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E7C2AF2A2D3AEA007C6AEB /* SearchViewController.swift */; };
 		12E7C2B22A2D3B4A007C6AEB /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E7C2B12A2D3B4A007C6AEB /* SearchViewModel.swift */; };
 		12E7C2B42A2D3B55007C6AEB /* SearchDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E7C2B32A2D3B55007C6AEB /* SearchDomainModel.swift */; };
@@ -104,7 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				12E7C2AC2A2D17C8007C6AEB /* PopupView in Frameworks */,
+				122997442A3D19FB0073BFFB /* Toaster in Frameworks */,
 				121D2F0C2A2A987700BFF0B1 /* Kingfisher in Frameworks */,
 				1263F3962A2A4F8900CD5A05 /* NeedleFoundation in Frameworks */,
 			);
@@ -342,7 +342,7 @@
 			packageProductDependencies = (
 				1263F3952A2A4F8900CD5A05 /* NeedleFoundation */,
 				121D2F0B2A2A987700BFF0B1 /* Kingfisher */,
-				12E7C2AB2A2D17C8007C6AEB /* PopupView */,
+				122997432A3D19FB0073BFFB /* Toaster */,
 			);
 			productName = WeatherApp;
 			productReference = 1263F3782A2A48B700CD5A05 /* WeatherApp.app */;
@@ -375,7 +375,7 @@
 			packageReferences = (
 				1263F3942A2A4F8900CD5A05 /* XCRemoteSwiftPackageReference "needle" */,
 				121D2F0A2A2A987700BFF0B1 /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				12E7C2AA2A2D17C8007C6AEB /* XCRemoteSwiftPackageReference "PopupView" */,
+				122997422A3D19FB0073BFFB /* XCRemoteSwiftPackageReference "Toaster" */,
 			);
 			productRefGroup = 1263F3792A2A48B700CD5A05 /* Products */;
 			projectDirPath = "";
@@ -695,20 +695,20 @@
 				minimumVersion = 7.7.0;
 			};
 		};
+		122997422A3D19FB0073BFFB /* XCRemoteSwiftPackageReference "Toaster" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/DarthRumata/Toaster";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
 		1263F3942A2A4F8900CD5A05 /* XCRemoteSwiftPackageReference "needle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uber/needle.git";
 			requirement = {
 				kind = upToNextMinorVersion;
 				minimumVersion = 0.23.0;
-			};
-		};
-		12E7C2AA2A2D17C8007C6AEB /* XCRemoteSwiftPackageReference "PopupView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/exyte/PopupView.git";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 2.4.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -719,15 +719,15 @@
 			package = 121D2F0A2A2A987700BFF0B1 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
+		122997432A3D19FB0073BFFB /* Toaster */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 122997422A3D19FB0073BFFB /* XCRemoteSwiftPackageReference "Toaster" */;
+			productName = Toaster;
+		};
 		1263F3952A2A4F8900CD5A05 /* NeedleFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1263F3942A2A4F8900CD5A05 /* XCRemoteSwiftPackageReference "needle" */;
 			productName = NeedleFoundation;
-		};
-		12E7C2AB2A2D17C8007C6AEB /* PopupView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 12E7C2AA2A2D17C8007C6AEB /* XCRemoteSwiftPackageReference "PopupView" */;
-			productName = PopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
