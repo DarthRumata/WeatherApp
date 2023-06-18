@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DarthRumata/Toaster",
       "state" : {
-        "revision" : "b0d9fd76ae0d01965b3554bc00a583e042febd02",
-        "version" : "0.1.0"
+        "revision" : "604e233bff8439499eaed898b6bae4a5a5f7b9f7",
+        "version" : "0.3.2"
       }
     }
   ],
